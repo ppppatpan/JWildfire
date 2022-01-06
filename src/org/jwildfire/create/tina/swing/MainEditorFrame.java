@@ -118,6 +118,9 @@ import org.jwildfire.create.tina.swing.flamepanel.FlamePanelControlStyle;
 import org.jwildfire.swing.JWildfire;
 import org.jwildfire.swing.StandardErrorHandler;
 
+// CUSTOM IMPORTS
+import java.util.concurrent.TimeUnit;
+
 public class MainEditorFrame extends JFrame {
   private TinaController tinaController;
   private TinaNonlinearControlsRow[] nonlinearControlsRows;
@@ -8568,6 +8571,25 @@ public class MainEditorFrame extends JFrame {
           RandomGradientGenerator randGradientGen = RandomGradientGeneratorList.getRandomGradientGeneratorInstance((String) randomGradientCmb.getSelectedItem(), true);
           RandomWeightingFieldGenerator randWeightingFieldGen = RandomWeightingFieldGeneratorList.getRandomWeightingFieldGeneratorInstance((String) randomWeightingFieldCmb.getSelectedItem(), true);
           tinaController.createRandomBatch(-1, randGen, randSymmGen, randGradientGen, randWeightingFieldGen, RandomBatchQuality.NORMAL);
+          //System.out.println("I created a random batch and know that I did so MAIN EDITOR FRAME!!!");
+          //TimeUnit.SECONDS.sleep(30);
+          //Thread.sleep(30)
+          //loop and render here!
+//           System.out.println("Before the loop");
+//           for(int i=0; i<100000; i++) {
+//             System.out.println("Entered the loop");
+//             try {
+//               System.out.println("Entered the try");
+// //              tinaController.createRandomBatch(-1, randGen, randSymmGen, randGradientGen, randWeightingFieldGen, RandomBatchQuality.NORMAL);
+//               System.out.println("Looping: "+i);
+//               TimeUnit.SECONDS.sleep(30);
+// //              Thread.sleep(30000);
+//             }
+//             catch(InterruptedException exception) {
+//               System.out.println("Caught the nasty one!!!: "+exception);
+//             }
+
+//           }
         }
       });
     }

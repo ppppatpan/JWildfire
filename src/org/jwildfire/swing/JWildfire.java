@@ -162,6 +162,8 @@ public class JWildfire extends JApplet {
       });
       tinaInternalFrame.setJMenuBar(getMainJMenuBar());
 
+      System.out.println("Just set the menu bar!!");
+
       errorHandler = new StandardErrorHandler(getMainFrame(), getShowErrorDlg(), getShowErrorDlgMessageTextArea(),
           getShowErrorDlgStacktraceTextArea());
 
@@ -292,6 +294,7 @@ public class JWildfire extends JApplet {
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
+        
         if(Prefs.getPrefs().getTinaInitialRandomBatchSize()>0) {
           try {
             RandomFlameGenerator randGen = RandomFlameGeneratorList.getRandomFlameGeneratorInstance(RandomFlameGeneratorList.DEFAULT_GENERATOR_NAME, true);
@@ -315,6 +318,7 @@ public class JWildfire extends JApplet {
             }
 
             tinaController.createRandomBatch(Prefs.getPrefs().getTinaInitialRandomBatchSize(), randGen, randSymmGen, randGradientGen, randWeightingFieldGen, RandomBatchQuality.LOW);
+            System.out.println("I created a random batch and know that I did so!");
 
           } catch (Exception ex) {
             ex.printStackTrace();
@@ -846,6 +850,10 @@ public class JWildfire extends JApplet {
       Logger root = Logger.getLogger("");
       root.setLevel(Level.OFF);
     }
+
+    // TODO: here call function that loops in its own thread and calls random batch to be generated every n seconds
+    // Then detach the thread
+    // Rendering?
 
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {

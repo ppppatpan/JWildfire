@@ -30,6 +30,9 @@ import org.jwildfire.image.SimpleImage;
 import javax.swing.*;
 import java.util.List;
 
+import java.util.concurrent.TimeUnit;
+
+
 public class CreateRandomBatchThread implements Runnable{
   private final TinaController parentController;
   private final Prefs prefs;
@@ -62,57 +65,62 @@ public class CreateRandomBatchThread implements Runnable{
   @Override
   public void run() {
     done = cancelSignalled = false;
-    try {
-      mainProgressUpdater.initProgress(maxCount);
-      for (int i = 0; i < maxCount && !cancelSignalled; i++) {
-        int palettePoints = 7 + Tools.randomInt(24);
-        boolean fadePaletteColors = Math.random() > 0.06;
-        boolean uniformWidth = Math.random() > 0.75;
-        RandomFlameGeneratorSampler sampler = new RandomFlameGeneratorSampler(FlameThumbnail.IMG_WIDTH / 2, FlameThumbnail.IMG_HEIGHT / 2, prefs, randGen, randSymmGen, randGradientGen, randWeightingFieldGen, palettePoints, fadePaletteColors, uniformWidth, quality);
-        RandomFlameGeneratorSample sample = sampler.createSample();
-        FlameThumbnail thumbnail;
-        thumbnail = new FlameThumbnail(sample.getFlame(), null, null);
-        SimpleImage img = thumbnail.getPreview(3 * prefs.getTinaRenderPreviewQuality() / 4);
-        if (prefs.getTinaRandomBatchRefreshType() == RandomBatchRefreshType.INSERT) {
-          randomBatch.add(0, thumbnail);
-          imgList.add(0, img);
-        } else {
-          randomBatch.add(thumbnail);
-          imgList.add(img);
-        }
-        final int currProgress = i + 1;
-        if(!cancelSignalled) {
-          SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-              try {
-                mainProgressUpdater.updateProgress(currProgress);
-                int scrollPos = parentController.getScrollThumbnailsPosition();
-                parentController.updateThumbnails();
-                parentController.scrollThumbnailsToPosition(scrollPos);
+    for (int m = 0; m < 100000; m++) {
+      try {
+        mainProgressUpdater.initProgress(maxCount);
+        for (int i = 0; i < maxCount && !cancelSignalled; i++) {
+          int palettePoints = 7 + Tools.randomInt(24);
+          boolean fadePaletteColors = Math.random() > 0.06;
+          boolean uniformWidth = Math.random() > 0.75;
+          RandomFlameGeneratorSampler sampler = new RandomFlameGeneratorSampler(FlameThumbnail.IMG_WIDTH / 2, FlameThumbnail.IMG_HEIGHT / 2, prefs, randGen, randSymmGen, randGradientGen, randWeightingFieldGen, palettePoints, fadePaletteColors, uniformWidth, quality);
+          RandomFlameGeneratorSample sample = sampler.createSample();
+          FlameThumbnail thumbnail;
+          thumbnail = new FlameThumbnail(sample.getFlame(), null, null);
+          SimpleImage img = thumbnail.getPreview(3 * prefs.getTinaRenderPreviewQuality() / 4);
+          if (prefs.getTinaRandomBatchRefreshType() == RandomBatchRefreshType.INSERT) {
+            randomBatch.add(0, thumbnail);
+            imgList.add(0, img);
+          } else {
+            randomBatch.add(thumbnail);
+            imgList.add(img);
+          }
+          final int currProgress = i + 1;
+          if(!cancelSignalled) {
+            SwingUtilities.invokeLater(new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  mainProgressUpdater.updateProgress(currProgress);
+                  int scrollPos = parentController.getScrollThumbnailsPosition();
+                  parentController.updateThumbnails();
+                  parentController.scrollThumbnailsToPosition(scrollPos);
+                }
+                catch(Exception ex) {
+                  ex.printStackTrace();;
+                }
               }
-              catch(Exception ex) {
-                ex.printStackTrace();;
-              }
-            }
-          });
+            });
+          }
         }
       }
-    }
-    finally {
-      done = true;
-      SwingUtilities.invokeLater(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            parentController.notifyRandGenFinished();
+      finally {
+        done = true;
+        SwingUtilities.invokeLater(new Runnable() {
+          @Override
+          public void run() {
+            try {
+              parentController.notifyRandGenFinished();
+              TimeUnit.SECONDS.sleep(30);
+            }
+            catch(Exception ex) {
+              ex.printStackTrace();
+            }
+          
+              
           }
-          catch(Exception ex) {
-            ex.printStackTrace();
-          }
-        }
-      });
+        });
 
+      }
     }
   }
 

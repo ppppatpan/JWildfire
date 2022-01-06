@@ -309,6 +309,7 @@ public class JWildfireApplet extends JApplet implements IterationObserver {
 
   @Override
   public void start() {
+    System.out.println("Looping superfast?!");
     refreshImagePanel();
     super.start();
     nextButton_clicked(RandomBatchQuality.NORMAL);

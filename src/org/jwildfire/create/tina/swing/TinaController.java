@@ -1459,6 +1459,9 @@ public class TinaController implements FlameHolder, LayerHolder, ScriptRunnerEnv
         }
       });
     }
+    System.out.println("I finished a random batch and know that I did so!");
+    // HERE IS NOTIFIED WHEN A BATCH HAS FINISHED
+    // TODO HERE: chose one at random and render it, then trigger random batch button again
   }
 
   public void cancelBackgroundRender() {
@@ -3023,6 +3026,7 @@ public class TinaController implements FlameHolder, LayerHolder, ScriptRunnerEnv
       stopRandomBatchThread();
       return;
     }
+    System.out.println("SCHTARTINGG!");
     stopPreviewRendering();
     if (prefs.getTinaRandomBatchRefreshType() == RandomBatchRefreshType.CLEAR) {
       randomBatch.clear();
@@ -3045,6 +3049,8 @@ public class TinaController implements FlameHolder, LayerHolder, ScriptRunnerEnv
         data.randomBatchButton.invalidate();
         data.randomBatchButton.validate();
         data.randomBatchButton.repaint();
+        System.out.println("Refreshing!!!");
+
       }
     });
   }
