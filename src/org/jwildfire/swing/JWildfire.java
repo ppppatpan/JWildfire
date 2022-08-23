@@ -65,6 +65,7 @@ import org.jwildfire.create.tina.randomweightingfield.RandomWeightingFieldGenera
 import org.jwildfire.create.tina.randomweightingfield.RandomWeightingFieldGeneratorList;
 import org.jwildfire.create.tina.swing.*;
 import org.jwildfire.create.tina.swing.MainEditorFrame;
+//import org.jwildfire.create.tina.swing.RandomBatchLoopThread;
 
 public class JWildfire extends JApplet {
   private final List<FrameHolder> mainInternalFrames;
@@ -863,6 +864,10 @@ public class JWildfire extends JApplet {
       }
 
     });
+
+    RandomBatchLoopThread randomBatchLoopThread = new RandomBatchLoopThread();
+    randomBatchLoopThread.start();
+
   }
 
   public static void setUserLookAndFeel() {
