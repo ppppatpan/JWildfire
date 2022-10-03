@@ -316,6 +316,16 @@ public class JWildfire extends JApplet {
             }
 
             tinaController.createRandomBatch(Prefs.getPrefs().getTinaInitialRandomBatchSize(), randGen, randSymmGen, randGradientGen, randWeightingFieldGen, RandomBatchQuality.LOW);
+            System.out.println("created random batch with randGen: " + randGen);
+            System.out.println("created random batch with randSymmGen: " + randSymmGen);
+            System.out.println("created random batch with randGradientGen: " + randGradientGen);
+            System.out.println("created random batch with randWeightingFieldGen: " + randWeightingFieldGen);
+            System.out.println("created random batch with RandomBatchQuality.LOW: " + RandomBatchQuality.LOW);
+            
+
+            // Start Loop thread with the same arguments
+            RandomBatchLoopThread randomBatchLoopThread = new RandomBatchLoopThread(tinaController, Prefs.getPrefs().getTinaInitialRandomBatchSize(), randGen, randSymmGen, randGradientGen, randWeightingFieldGen, RandomBatchQuality.LOW);
+            randomBatchLoopThread.start();
 
           } catch (Exception ex) {
             ex.printStackTrace();
@@ -864,9 +874,6 @@ public class JWildfire extends JApplet {
       }
 
     });
-
-    RandomBatchLoopThread randomBatchLoopThread = new RandomBatchLoopThread();
-    randomBatchLoopThread.start();
 
   }
 
