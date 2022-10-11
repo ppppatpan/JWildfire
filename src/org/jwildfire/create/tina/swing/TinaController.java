@@ -150,7 +150,7 @@ public class TinaController implements FlameHolder, LayerHolder, ScriptRunnerEnv
   private FlamePanel prevFlamePanel;
 
   private final JWildfire desktop;
-  private final Prefs prefs;
+  public final Prefs prefs;
   final ErrorHandler errorHandler;
   boolean gridRefreshing = false;
   boolean cmbRefreshing = false;
@@ -163,7 +163,7 @@ public class TinaController implements FlameHolder, LayerHolder, ScriptRunnerEnv
   private final JPanel rootPanel;
   private Flame _currFlame;
   private boolean noRefresh;
-  private final ProgressUpdater mainProgressUpdater;
+  public final ProgressUpdater mainProgressUpdater;
   private final ProgressUpdater randomBatchProgressUpdater;
   private final ProgressUpdater quickMutationProgressUpdater;
 
@@ -177,6 +177,8 @@ public class TinaController implements FlameHolder, LayerHolder, ScriptRunnerEnv
   private File scriptPropFile = new File(System.getProperty("user.home"), SCRIPT_PROPS_FILE);
 
   private final FrameControlsUtil frameControlsUtil;
+
+  public RenderMainFlameThreadFinishEvent finishEventMember_;
 
   public TinaController(final TinaControllerParameter parameterObject) {
     frameControlsUtil = new FrameControlsUtil(this);
@@ -3609,7 +3611,7 @@ public class TinaController implements FlameHolder, LayerHolder, ScriptRunnerEnv
     }
   }
 
-  private ResolutionProfile getResolutionProfile() {
+  public ResolutionProfile getResolutionProfile() {
     ResolutionProfile res = (ResolutionProfile) data.resolutionProfileCmb.getSelectedItem();
     if (res == null) {
       res = new ResolutionProfile(false, 800, 600);
@@ -3617,7 +3619,7 @@ public class TinaController implements FlameHolder, LayerHolder, ScriptRunnerEnv
     return res;
   }
 
-  private QualityProfile getQualityProfile() {
+  public QualityProfile getQualityProfile() {
     QualityProfile res = (QualityProfile) data.qualityProfileCmb.getSelectedItem();
     if (res == null) {
       res = new QualityProfile(false, "Default", 500, false, false);
@@ -4319,13 +4321,13 @@ public class TinaController implements FlameHolder, LayerHolder, ScriptRunnerEnv
     return dancingFractalsController;
   }
 
-  private RenderMainFlameThread mainRenderThread = null;
+  public RenderMainFlameThread mainRenderThread = null;
 
-  private void enableMainRenderControls() {
+  public void enableMainRenderControls() {
     data.renderMainButton.setText(mainRenderThread == null ? "Render" : "Cancel render");
   }
 
-  public void renderImageButton_actionPerformed() {
+  public void renderImageButton_actionPerformed(boolean looping) {
     if (mainRenderThread != null) {
       mainRenderThread.setForceAbort();
       while (mainRenderThread.isFinished()) {
@@ -4381,12 +4383,15 @@ public class TinaController implements FlameHolder, LayerHolder, ScriptRunnerEnv
             }
 
           };
+          finishEventMember_ = finishEvent;
           mainRenderThread = new RenderMainFlameThread(prefs, flame, file, qualProfile, resProfile, finishEvent, mainProgressUpdater);
 
           enableMainRenderControls();
+
           Thread worker = new Thread(mainRenderThread);
           worker.setPriority(Thread.MIN_PRIORITY);
           worker.start();
+
         }
       }
       catch (Throwable ex) {

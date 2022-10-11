@@ -237,6 +237,7 @@ public class FlameRenderer {
   }
 
   public RenderedFlame renderFlame(RenderInfo pRenderInfo) {
+
     renderInfo = pRenderInfo;
     if (!Stereo3dMode.NONE.equals(flame.getStereo3dMode())) {
       return renderImageStereo3d(pRenderInfo);
@@ -753,6 +754,8 @@ public class FlameRenderer {
           int currProgress = (int) ((currSamples * PROGRESS_STEPS) / nSamples);
           progressUpdater.updateProgress(currProgress + pPart * PROGRESS_STEPS + progressChangePerPhase * progressDisplayPhase);
           nextProgressUpdate = (currProgress + 1) * sampleProgressUpdateStep;
+          int currProgPrint = currProgress + pPart * PROGRESS_STEPS + progressChangePerPhase * progressDisplayPhase;
+          System.out.println("Render Updating steps: " + currProgPrint);
         }
       }
     }
@@ -926,6 +929,7 @@ public class FlameRenderer {
   }
 
   public RenderThreads startRenderFlame(RenderInfo pRenderInfo) {
+    System.out.println("starting the flame rendering");
     renderInfo = pRenderInfo;
     initRaster(pRenderInfo, pRenderInfo.getImageWidth(), pRenderInfo.getImageHeight(), flame.getSampleDensity());
     List<List<RenderPacket>> renderFlames = new ArrayList<List<RenderPacket>>();

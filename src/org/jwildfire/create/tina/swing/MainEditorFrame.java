@@ -3248,7 +3248,7 @@ public class MainEditorFrame extends JFrame {
       renderMainButton.setIcon(new ImageIcon(MainEditorFrame.class.getResource("/org/jwildfire/swing/icons/new/fraqtive3.png")));
       renderMainButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent e) {
-          tinaController.renderImageButton_actionPerformed();
+          tinaController.renderImageButton_actionPerformed(false);
         }
       });
     }

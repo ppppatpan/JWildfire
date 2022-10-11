@@ -45,6 +45,8 @@ public class JobProgressUpdater implements ProgressUpdater {
       parent.getBatchRenderJobProgressBar().setValue(pStep);
       parent.getBatchRenderJobProgressBar().invalidate();
       parent.getBatchRenderJobProgressBar().validate();
+      System.out.println("Rendering progress here? :" + pStep);
+
     }
     catch (Throwable ex) {
       //    ex.printStackTrace();

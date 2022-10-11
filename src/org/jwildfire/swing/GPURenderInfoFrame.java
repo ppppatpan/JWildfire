@@ -55,6 +55,8 @@ public class GPURenderInfoFrame extends JFrame {
     this.setVisible(false);
     this.setResizable(true);
     this.setContentPane(getJContentPane());
+    System.out.println("Initialize the Rendering with GPUINfo frame");
+
   }
 
   /**

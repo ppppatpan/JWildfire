@@ -197,8 +197,10 @@ public class RenderMainFlameThread implements Runnable {
     if (prefs.isTinaSaveFlamesWhenImageIsSaved()) {
       new FlameWriter().writeFlame(flame, outFile.getParentFile().getAbsolutePath() + File.separator + Tools.trimFileExt(outFile.getName()) + ".flame");
     }
+
     finished = true;
-    finishEvent.succeeded((t1 - t0) * 0.001);
+    //finishEvent.succeeded((t1 - t0) * 0.001);
+
   }
 
   public boolean isFinished() {
