@@ -65,7 +65,7 @@ public class RandomBatchLoopThread extends Thread {
 
       // LOOP Params:
       int minLoopSleepTime = 20000;
-      int renderQuality = 500; // 320 is high, 500 is very high
+      int renderQuality = 320; // 320 is high, 500 is very high
       int renderHeight = 1080; //
       int renderWidth = 1920; //
 
@@ -85,7 +85,7 @@ public class RandomBatchLoopThread extends Thread {
 
       final Flame flame = tinaController.getCurrFlame();
 
-      String filepath = System.getProperty("user.dir");
+      String filepath = System.getProperty("user.home");
       File file = new File(filepath + "/loopingflame.png");
       System.out.println(file);
 
